@@ -6,7 +6,7 @@ from rasterstats import zonal_stats
 bldg = gpd.read_file("data/raw/slc_buildings.geojson")
 
 # Raster path
-raster_path = "data/raw/FctImp_2024.tif"
+raster_path = "data/raw/FctImp_2024.tiff"
 
 # Compute roof area 
 bldg_m = bldg.to_crs(epsg=26912)
@@ -31,5 +31,5 @@ bldg_m["score"] = (60 * area_norm + 40 * imp_norm).round(1)
 
 # Keep only useful fields and export to GeoJSON
 out = bldg_m[["roof_area_m2", "imp_mean", "score", "geometry"]].dropna(subset=["imp_mean"])
-out.to_crs(epsg=4326).to_file("slc_greenroof_screening.geojson", driver="GeoJSON")
+out.to_crs(epsg=4326).to_file("/data/output/slc_greenroof_screening.geojson", driver="GeoJSON")
 print("Wrote slc_greenroof_screening.geojson")
